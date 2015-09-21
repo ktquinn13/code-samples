@@ -1,0 +1,38 @@
+<!DOCTYPE HTML> 
+<html>  
+<body> 
+     
+    <h1>Page visits</h1> 
+
+<?php  
+
+    $filename="lands.txt"; 
+
+     
+    $temp = file_get_contents($filename); 
+
+    $arr = (json_decode($temp,true)); 
+
+     
+    date_default_timezone_set('America/New_York'); 
+    $time = strftime("%b %d, %Y  %I:%M:%S %p", $arr[time]); 
+
+    echo"<pre>"; 
+    echo"Page was visited ".$arr[visits]." times."; 
+    echo"<pre>"; 
+    echo"Last visit was at: ".$time; 
+
+
+    $arr[visits]++; 
+    $arr[time]=time(); 
+
+
+
+    file_put_contents($filename, json_encode($arr)); 
+
+?> 
+
+
+</body> 
+
+</html> 
