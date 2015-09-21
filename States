@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>Fifty States Quiz</title> 
+	<h1>Fifty States Quiz</h1>
+
+	<style media="screen" type="text/css">
+		body{
+			background-color:#DBDBFF;
+		}
+		h1{
+			color: #5C8AE6;
+			text-align: center;
+			}
+		div{
+			text-align: center;
+		}
+	</style>
+
+</head>
+<body>
+
+<div>
+	<p id = "state"></p>
+	<input type="text" id="input_a" onkeyup="return checkReady(event)"></input>
+	<!--input type="text" id="input_a"></input>-->
+	<!--<input type="submit" name="a" value="Submit" onclick="submit()",accessKey = s>-->
+
+	<p></p>
+	<p id = "correct"></p>
+	<text id = "demo1">5</text>
+	<text>:</text>
+	<text id="demo">00</text>
+	<text>.</text>
+	<text id = "demo2">00</text>
+	<p id = "tex"></p>
+
+	<SCRIPT src="caps.js"></SCRIPT>
+
+	<button id="start"onClick="start()"accesskey="s"><u>S</u>tart</button>
+	<button id="stop"onClick="stop()"accesskey="t">S<u>t</u>op</button>
+	<INPUT TYPE="button" onClick="history.go(0)" accesskey="r"VALUE="Reset">
+	<p id ="completed"></p>
+	<p id = "wrong"></p>
+	<text id = "numCorrect">0</text>
+	<text id = "outOf">/50</text>
+	<p></p>
+	<img src="http://www.bikramyoga.com/images/usaStateMap.jpg" alt="Map of the USA" style="width: 700px;height: 450px">
+	
+	
+
+</div>
+
+</body>
+</html>
