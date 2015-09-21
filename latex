@@ -1,0 +1,91 @@
+<!DOCTYPE html>  
+<html>  
+    <head>  
+        <title>latex generator</title>  
+
+    </head>  
+    <body>  
+        <h1>Lab 9 - latex generator</h1>  
+        <form method="get"> 
+        Say something I'm giving up on you: <input type="text" name="two"><br><br>  
+        <button type="submit">PRESS HERE </button>  
+        </form>  
+
+
+        <?php  
+       // $db = new SQLite3('SENIOR');  
+
+                $my_file = "$foo.tex";   
+                $handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);   
+                $string= "\ end{document}";   
+                $string = str_replace(' ', '', $string);          
+
+                $db = new sqlite3('SENIOR');     
+
+                $view = $_GET["two"];  
+
+                $text=  
+                    "\documentclass{article}  
+                    \usepackage{graphicx}  
+                    \begin{document}  
+                    \section{Watcha Say}  
+                    $view  
+                    $string";  
+                file_put_contents($my_file, $text);                   
+                  
+                      
+
+                $prep= "pdflatex $my_file";   
+                shell_exec($prep);                
+
+                $file = "$foo.pdf";                   
+
+                $res=$db->prepare('INSERT OR REPLACE INTO fun (key, var) VALUES (:k,:v)');    
+                $res->bindValue(':k', $out);   
+                $res->bindValue(':v', $in);   
+                $res->execute();                  
+
+                $result = $db->query('SELECT key, var FROM fun');   
+                var_dump($result->fetchArray());                  
+
+                if (file_exists($file) && is_readable($file) && preg_match('/\.pdf$/',$file)) {   
+                header('Content-Type: application/pdf');   
+                header("Content-Disposition: attachment; filename=\"$file\"");   
+                readfile($file);   
+
+                $delete = "DELETE FROM fun WHERE  key='$in';";   
+                $finish=$db->prepare($delete);   
+                $done=$finish->execute;    
+                echo "<br>";    
+                }   
+                 
+
+       // $file = strtolower($_GET["foo"]); //senior.db  
+
+       // $out=  rtrim(base64_encode(md5(microtime())),"="); 
+
+        //shell_exec("pdflatex foo.tex"); 
+// 
+        //getContents 
+
+        //find the location of Hello 
+
+        //replace 
+
+        //putContents 
+
+
+
+        //$db -> exec('CREATE TABLE passKeys (key text UNIQUE NOT NULL);');  
+
+      //  $insertStuff = $db -> prepare('INSERT OR REPLACE INTO fun (key) VALUES (:id);');   
+      //  $insertStuff ->bindValue(':id', $out, SQLITE3_TEXT);  
+      //  $dummy = $insertStuff -> execute();  
+
+       // echo '<a href= download.php?key='.$encoded.'&foo='.$file.'>Download the pdf</a>';  
+        ?> 
+
+    </body>  
+</html> 
+
+
