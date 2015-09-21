@@ -1,0 +1,82 @@
+
+<!DOCTYPE HTML> 
+<html>  
+<body> 
+     
+    <h1>Page visits</h1> 
+
+<?php  
+//unique not null 
+    if(!empty($_SERVER['HTTP_CLIET_IP'])){ 
+        $ip = $_SERVER['HTTP_CLIET_IP'];} 
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
+        $ip=$_SERVER['HTTP_X_FORWARDED_FOR']; 
+        } 
+    else{ 
+        $ip=$_SERVER['REMOTE_ADDR']; 
+    } 
+    echo "current ip= ".$ip; 
+     
+    $db = new SQLite3('sqlite.txt'); 
+    $num = "SELECT COALESCE(MAX(num)+1,0) FROM foo WHERE ip = :IP;"; 
+
+    $count = $db->prepare($num); 
+    $count->bindValue(':IP',$ip); 
+    $finCount=$count->execute(); 
+    $visitNum = $finCount->fetchArray(); 
+
+    $query = "INSERT OR REPLACE INTO foo (ip,num) VALUES (:ip, COALESCE((SELECT num FROM foo WHERE ip = :ip)+1,1));"; 
+    $temp = $db->prepare($query); 
+    $temp->bindValue(':ip',$ip); 
+    $temp->bindValue(':num',$visitNum['num']); 
+
+    $res = $temp->execute(); 
+    $table = "SELECT * FROM foo"; 
+
+    $findQuery = $db->prepare($table); 
+    $findQueryResults = $findQuery->execute(); 
+    echo"<br>"; 
+    while ($result = $findQueryResults->fetchArray()){ 
+        print_r($result); 
+        echo"<br>"; 
+    } 
+
+    //$stmt = $dp->INSERT INTO foo  
+
+
+
+
+
+    /* 
+    $temp = file_get_contents($filename); 
+
+    $arr = (json_decode($temp,true)); 
+
+    /* 
+    $ip =$_SERVER['HTTP_X_FORWARDED_FOR']; 
+    if ($dp->exec("SELECT num FROM foo WHERE ip = $ip") == null){ 
+        $db->exec("INSERT INTO foo (ip, num) VALUES ($ip, $num+1)"); 
+    } 
+    else{ 
+        $num1 = $dp->exec("SELECT num FROM foo WHERE ip = $ip"); 
+        $dp->exec("UPDATE foo SET num = $num1++ WHERE ip = $ip"); 
+    } 
+    //date_default_timezone_set('America/New_York'); 
+    //$time = strftime("%b %d, %Y  %I:%M:%S %p", $arr[time]); 
+
+    echo"<pre>"; 
+    echo"Page was visited ".$arr[visits]." times."; 
+    echo"<pre>"; 
+    echo"Last visit was at: ".$time; 
+
+
+
+    file_put_contents($filename, json_encode($arr)); 
+
+    */ 
+?> 
+
+
+</body> 
+
+</html> 
